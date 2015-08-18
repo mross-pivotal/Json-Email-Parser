@@ -40,6 +40,6 @@ def parse_string(str_email):
 
 
 
-    print tuple(final_values)
+    return tuple(final_values)
 
 parse_string(str_email)
