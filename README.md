@@ -1,3 +1,3 @@
 # Python-Json-Parser
 
-Some parsing for your pythons
+Agnostic JSON parser for Emails
