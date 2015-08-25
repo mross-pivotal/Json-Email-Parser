@@ -21,47 +21,32 @@ arr = []
 email_content = []
 def go_deeper(key,obj):
     if isinstance(obj,list):
-        # print "about to iterate over {0}".format(obj)
         for item in obj:
-            # print item
             go_deeper(key,item)
     elif isinstance(obj,dict):
         for key, value in obj.iteritems():
-            # print "{0}:{1}".format(key,value)
             if key == "Paragraphs":
-                # print "Content value is {0}".format(value)
                 for content in value:
                     email_content.append(content["Content"])
             elif key in my_keys:
-                #in content block
                 go_deeper(key,value)
-
     else:
         if key in my_keys:
-            print "appending {0}".format(obj)
             my_keys[key].append(obj)
             arr.append(obj)
     return arr
 
 for key, value in my_json.iteritems():
-    # print key
     if key in my_keys and (isinstance(value,list) == False and isinstance(value,dict) == False):
-        print "extracting top level values for {0}:{1}".format(key,value)
-        # print "final value is {0}".format(tuple(go_deeper(value)))
         my_keys[key] = value
-        final_values.append(value)
         arr = []
     else:
-        # print "final value is {0}".format(go_deeper(value))
-        # print "extracting values for {0}:{1}".format(key,value)
-        final_values.append(go_deeper(key,value))
+	go_deeper(key,value)
         arr = []
-        # print "Doing nothing with {0}".format(key)
 my_keys["Content"] = email_content
 
-return (2, my_keys["MSGID"],my_keys["Content"])
+return (3, my_keys["TextParseTime"],my_keys["Content"])
 	
-#return go_deeper(64)
 $$ LANGUAGE plpythonu;
 
 

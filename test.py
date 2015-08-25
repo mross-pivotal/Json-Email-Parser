@@ -41,12 +41,12 @@ for key, value in my_json.iteritems():
         print "extracting top level values for {0}:{1}".format(key,value)
         # print "final value is {0}".format(tuple(go_deeper(value)))
         my_keys[key] = value
-        final_values.append(value)
+        # final_values.append(value)
         arr = []
     else:
         # print "final value is {0}".format(go_deeper(value))
         # print "extracting values for {0}:{1}".format(key,value)
-        final_values.append(go_deeper(key,value))
+        go_deeper(key,value)
         arr = []
         # print "Doing nothing with {0}".format(key)
 my_keys["Content"] = email_content
