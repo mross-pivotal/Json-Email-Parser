@@ -10,8 +10,8 @@ import types
 str_email ='{ "TextParseTime":0.100195,"cc":[],"Receipient_Internal":0,"DateTime":"2015/07/21 11:54:47","Body":"","From":[{ "Category": ["Big Data","Cloud Cloud Cloud!"],"Name": "Brassington","IntExt": "External","Email":"tankers@brassington.com"},{ "Category": ["Data Resevoirs", "Lakes Lakes Lakes"],"Name": "Brassington","IntExt": "External","Email":"tankers@brassington.com"}],"MSGID":"<000001d0c3ac$0a9b3740$1fd1a5c0$@brassington.com>","recipient":["sdfgfgs"],"Content":[{"Type": "Subject","Paragraphs":[{"Content": "OPEN POSITIONS 2855 DWT DPP 21TH JULY" ,"Type":["text","subject"]}]},{"Type": "Body","Paragraphs":[{"Content": "OPEN POSITIONS 2855 DWT DPP 21TH JULY" ,"Type":["text","default","text","0.11236187123"]},{"Content": "OPEN VESSEL DWT FLG YR PORT COMMENT FLEET" ,"Type":["text","default","text","0.13719117202061745"]}]}],"bcc":["asfdasdf"],"Type":"Email","Sender_DoddFrank":0,"ExclusionScore":0.23414324}'
 my_json = json.loads(str_email)
 
-my_keys = {"TextParseTime": "", "Content": "", "MSGID": ""}
-
+my_keys = {"TextParseTime": "", "Content": "", "MSGID": "","From":""}
+arr = []
 def go_deeper(obj):
     if isinstance(obj,list):
         for item in obj:
@@ -20,7 +20,9 @@ def go_deeper(obj):
         for key, value in obj.iteritems():
             go_deeper(value)
     else:
-        print obj
+        #print obj
+        arr.append(obj)
+    return arr
 
 def parse_string(str_email):
     my_json = json.loads(str_email)
@@ -31,6 +33,8 @@ def parse_string(str_email):
         print cc
 
     for sender in my_json["From"]:
+        for key, value in sender.iteritems():
+            print "{0},{1}".format(key,value)
         for categories in sender["Category"]:
             print categories
 
@@ -53,11 +57,12 @@ def parse_string(str_email):
 
     return tuple(final_values)
 
+#parse_string(str_email)
 # print go_deeper([0,2])
 # print go_deeper(json.loads('{ "Category": ["Im in the array!","Arrays are awesome"], "Nest": {"Category": ["Im in the nest!!","Nested structures are better"]}, "Name": "Brassington","IntExt": "External","Email":"tankers@brassington.com"}'))
 for key, value in my_json.iteritems():
     if key in my_keys:
-        go_deeper(value)
+        print go_deeper(value)
     # print key
 # parse_string(str_email)
 # print my_json["Content"]
