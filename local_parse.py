@@ -48,7 +48,7 @@ def parse_json_file(my_json):
     print(my_keys)
 
 arr = []
-mypath = "/Users/mross/sandbox/greenplum-json-parser"
+mypath = "."
 onlyfiles = [ f for f in listdir(mypath) if isfile(join(mypath,f)) ]
 for json_file in onlyfiles:
     extension = os.path.splitext(json_file)[1]
