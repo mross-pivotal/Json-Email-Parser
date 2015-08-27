@@ -1,6 +1,6 @@
 import json
 
-str_email ='{"SearchContent0":[{"Type":"Email","Content":"Hi mom"}], "TextParseTime":0.100195,"cc":["1123","asd","123123"],"Receipient_Internal":0,"DateTime":"2015/07/21 11:54:47","Body":"","From":[{ "Category": ["Big Data","Cloud Cloud Cloud!"],"Name": "Brats","IntExt": "External","Email":"tankers@brassington.com"},{ "Category": ["Data Resevoirs", "Lakes Lakes Lakes"],"Name": "Brassington","IntExt": "External","Email":"blankers@brass.com"}],"MSGID":"<000001d0c3ac$0a9b3740$1fd1a5c0$@brassington.com>","recipient":["sdfgfgs"],"Content":[{"Type": "Subject","Paragraphs":[{"Content": "OPEN POSITIONS 2855 DWT DPP 21TH JULY" ,"Type":["text","subject"]}]},{"Type": "Body","Paragraphs":[{"Content": "OPEN POSITIONS 2855 DWT DPP 21TH JULY" ,"Type":["text","default","text","0.11236187123"]},{"Content": "OPEN VESSEL DWT FLG YR PORT COMMENT FLEET" ,"Type":["text","default","text","0.13719117202061745"]}]}],"bcc":["asfdasdf","hardy","harr"],"Type":"Email","Sender_DoddFrank":0,"ExclusionScore":0.23414324}'
+str_email ='{"Attatchments":[{"ContentType":"Text","FileSize":"234","ID":"124234234234"}],"SearchContent0":[{"Type":"Email","Content":"Hi mom"}], "TextParseTime":0.100195,"cc":["1123","asd","123123"],"Receipient_Internal":0,"DateTime":"2015/07/21 11:54:47","Body":"","From":[{ "Category": ["Big Data","Cloud Cloud Cloud!"],"Name": "Brats","IntExt": "External","Email":"tankers@brassington.com"},{ "Category": ["Data Resevoirs", "Lakes Lakes Lakes"],"Name": "Brassington","IntExt": "External","Email":"blankers@brass.com"}],"MSGID":"<000001d0c3ac$0a9b3740$1fd1a5c0$@brassington.com>","recipient":["sdfgfgs"],"Content":[{"Type": "Subject","Paragraphs":[{"Content": "OPEN POSITIONS 2855 DWT DPP 21TH JULY" ,"Type":["text","subject"]}]},{"Type": "Body","Paragraphs":[{"Content": "OPEN POSITIONS 2855 DWT DPP 21TH JULY" ,"Type":["text","default","text","0.11236187123"]},{"Content": "OPEN VESSEL DWT FLG YR PORT COMMENT FLEET" ,"Type":["text","default","text","0.13719117202061745"]}]}],"bcc":["asfdasdf","hardy","harr"],"Type":"Email","Sender_DoddFrank":0,"ExclusionScore":0.23414324}'
 # str_email = '{"SearchContent0":[{Type:"Email":"Content":"Hi mom"}]}'
 my_json = json.loads(str_email)
 
@@ -81,6 +81,7 @@ def find_key(my_key,data_type):
             print "At index:{0} of tree size:{1} looking at val:{2}".format(next_index,len(tree),val)
             if val == "[":
                 if len(tree) == next_index:
+                    print obj
                     for obj in my_json[tree[0]]:
                         print "Looking at {0}".format(obj)
                         results.append(obj)
@@ -88,8 +89,10 @@ def find_key(my_key,data_type):
                 else:
                     for obj in my_json[tree[0]]:
                         if tree[0] != "Content":
+                            print "about to append {0} coming from{1}".format(obj[tree[-1]],obj)
                             results.append(obj[tree[-1]])
                         elif isinstance(obj,dict) and "Type" in obj:
+                            print obj
                             print next_index
                             print len(tree)
 
@@ -111,29 +114,13 @@ def find_key(my_key,data_type):
                             print "Looking at {0}".format(obj)
                     return results
                 next_index += 1
-                if len(tree) == current_index:
-                    print "hi"
-                    return my_json[tree[index-1]]
-                elif tree[current_index] == "{":
-                    next_index +=1
-                    print "At index:{0} of tree size:{1} looking at val:{2}".format(next_index,len(tree),val)
-                    print my_json[tree[0]][0]["Content"]
-                    print "!!!!"
-                    if len(tree) == next_index:
-                        return my_json[tree[0]]
-            elif val == "{":
-                if len(tree) == next_index:
-                    print "hi"
-                    return my_json[tree[index-1]]
-            else:
-                if len(tree) == next_index:
-                    return my_json[tree[index]]
+
     else:
         return my_json[tree[0]]
 
 #"Content":[{"Type": "Subject","Paragraphs":[{"Content": "OPEN POSITIONS 2855 DWT DPP 21TH JULY" ,"Type":["text","subject"]}]},{"Type": "Body","Paragraphs":[{"Content": "OPEN POSITIONS 2855 DWT DPP 21TH JULY" ,"Type":["text","default","text","0.11236187123"]},{"Content": "OPEN VESSEL DWT FLG YR PORT COMMENT FLEET" ,"Type":["text","default","text","0.13719117202061745"]}]}]
 print find_key("Content:[:{:Type=Subject","array")
 # print find_key("SearchContent0:[:{:Content","array")
-# print find_key("cc:[")
+print find_key("Attatchments:[:{:ID","array")
 # print find_key("bcc:[","array")
 my_json["SearchContent0"][0]["Content"]
