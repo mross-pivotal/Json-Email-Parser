@@ -43,8 +43,11 @@ Here's another example
 {
 "cc":["bob@pivotal.io","jane@pivotal.io","jeff@pivotal.io"]
 }
+```
+
 
 Now while this isn't a nested structure, we are still returning an array of values, so we're going to want to say that we want the top most key, and then decalre the value we want like this.
+
 ```
 find_key("cc:[","array")
 ```
