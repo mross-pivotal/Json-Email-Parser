@@ -48,3 +48,37 @@ Now while this isn't a nested structure, we are still returning an array of valu
 ```
 find_key("cc:[","array")
 ```
+
+The purpose of being this verbose is so that we can be extremely specific in saying what we want from the object, this comes in handy in tricky situations like this.
+```
+{
+"From":
+    [
+        { "Category": ["Big Data","Cloud Native"],"Name": "tankers","IntExt":  "External","Email":"tankers@brassington.com"},
+        { "Category": ["Data Lake", "HDFS"],"Name": "Brassington","IntExt": "External","Email":"blankers@brass.com"}
+    ]
+}
+```
+All we have to do to get the Categories is this.
+```
+find_key("From:[:{:Category","array")
+```
+
+And finally sometimes we only want the value based on a conditional value, this comes with it's own syntax.  Consider the following object.
+```
+{
+    "Content":[
+        {"Type": "Subject","Paragraphs":[
+            {"Content": "OPEN POSITIONS 2855 DWT DPP 21TH JULY" , "Type":["text","subject"]}]}
+        ,{"Type": "Body","Paragraphs":[
+            {"Content": "OPEN POSITIONS 2855 DWT DPP 21TH JULY" ,"Type":["text","default","text","0.11236187123"]},
+            {"Content": "OPEN VESSEL DWT FLG YR PORT COMMENT FLEET" ,"Type":["text","default","text","0.13719117202061745"]}]}]
+}
+```
+If we wanted only the content from this object, contained within the body, we need to tell the parser that.  We can get the all the content within the body of this email using this syntax.  
+```
+find_key("Content:[:{:Type=Body:Content","array")
+```
+This specific case is a little less verbose because we needed to hard code in this functionality.  That equals sign syntax does not work for every case, and you will need to hard code it in if you want it to work for any other keys than syntax.  
+
+The purpose of this parser is too be as specific as possible, and while you might need to explicitly give the path to every value you want, you can be sure that you are being returned what you expect.  
